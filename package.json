@@ -1,0 +1,19 @@
+{
+  "name": "leaderboard5",
+  "version": "1.0.7",
+  "description": "Easily create game leaderboards",
+  "main": "index.js",
+  "dependencies": {
+    "express": ""
+  },
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "leaderboard",
+    "game",
+    "centipede5"
+  ],
+  "author": "Centipede5 (Calvin Ristad) [Calvin Ristad]",
+  "license": "MIT"
+}
