@@ -27,7 +27,8 @@ var config = {
     maxlen:10,                      // length of scoreboard 
     sortby:"score",                 // the JSON property to sort by
     sortof:l.Leaderboard5.HIGHEST,  // Leaderboard5.LOWEST to sort lowest first (e.g. fastest time), Leaderboard5.HIGHEST to sort highest first (e.g. highest score)
-    createReqSystem:true,          // true if you want an express request system to be created (/getleaderboard for json leaderboard, /sendscore?data=json&?key=key)
+    createReqSystem:true,           // true if you want an express request system to be created (/getleaderboard for json leaderboard, /sendscore?data=json&?key=key)
+    path:"/",                       // Set the path for multiple leaderboards on the same server
     key:"03b77154-acdd-4af8-a0ab-7804dba11244",// Key needed to write to leaderboard
     port:8080,                      // port to run express on
 }

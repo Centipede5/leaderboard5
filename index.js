@@ -3,6 +3,7 @@ var Leaderboard5 = function(options){
     this.maxlen = options.maxlen;
     this.delimeter = options.delimeter;
     this.sortby = options.sortby;
+    this.path = options.path||"/"
     this.sortof = options.sortof;
     console.log(this.sortof)
     this.key = options.key;
@@ -12,19 +13,21 @@ var Leaderboard5 = function(options){
     var fs = this.fs;
     var express = this.express;
     if(options.createReqSystem){
-        const app = express();
+        if(!Leaderboard5.app){
+            Leaderboard5.app = express();
+        }
         const port = options.port;
-        app.use((req,res,next) => {
+        Leaderboard5.app.use((req,res,next) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Methods', 'GET');
             next();
         });
-        app.get('/getleaderboard', function(req, res) {
+        Leaderboard5.app.get(obj.path+'getleaderboard', function(req, res) {
             obj.toJSON(function(a){
                 res.send(JSON.stringify(a));
             });
         });
-        app.get('/sendscore', function(req, res) {
+        Leaderboard5.app.get(obj.path+'sendscore', function(req, res) {
             if(req.query.key==obj.key){
                 obj.addPlay(JSON.parse(req.query.data),function(){
                     res.send("you got on the leaderboard!")
@@ -33,7 +36,8 @@ var Leaderboard5 = function(options){
                 });
             }
         });
-        app.listen(port, () => console.log(`leaderboard server is listening on port ${port}!`));
+        Leaderboard5.app.listen(port, () => console.log(`leaderboard server is listening on port ${port}!`));
+        
     }
     this.rewrite = function(text,callback){
         var callback = callback||function(){};
