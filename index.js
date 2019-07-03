@@ -13,15 +13,16 @@ var Leaderboard5 = function(options){
     var fs = this.fs;
     var express = this.express;
     if(options.createReqSystem){
+        const port = options.port;
         if(!Leaderboard5.app){
             Leaderboard5.app = express();
+            Leaderboard5.app.use((req,res,next) => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('Access-Control-Allow-Methods', 'GET');
+                next();
+            });
+            Leaderboard5.app.listen(port, () => console.log(`leaderboard server is listening on port ${port}!`));
         }
-        const port = options.port;
-        Leaderboard5.app.use((req,res,next) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Methods', 'GET');
-            next();
-        });
         Leaderboard5.app.get(obj.path+'getleaderboard', function(req, res) {
             obj.toJSON(function(a){
                 res.send(JSON.stringify(a));
@@ -36,7 +37,7 @@ var Leaderboard5 = function(options){
                 });
             }
         });
-        Leaderboard5.app.listen(port, () => console.log(`leaderboard server is listening on port ${port}!`));
+        
         
     }
     this.rewrite = function(text,callback){
@@ -48,8 +49,10 @@ var Leaderboard5 = function(options){
         fs.writeFile(obj.file, "", callback);
     }
     this.getContents = function(callback){
-        this.fs.readFile(obj.file, function(err, buf) {
-            callback(buf.toString());
+        obj.fs.readFile(obj.file, function(err, buf) {
+            if(buf){
+                callback(buf.toString());
+            }
         });
     }
     this.addJSON = function(json,index,callback){
